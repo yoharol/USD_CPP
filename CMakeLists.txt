@@ -9,33 +9,22 @@ get_filename_component(ABS_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR} ABSOLUTE)
 add_definitions(-DASSETS_PATH="${ABS_SOURCE_PATH}/asset")
 add_definitions(-DOUTPUT_PATH="${ABS_SOURCE_PATH}/output")
 
-find_package(pxr REQUIRED)
+if (LINUX)
+	find_package(pxr REQUIRED PATHS "/usr/local/USD")
+endif()
+if (APPLE)
+	find_package(pxr REQUIRED PATHS "/opt/local/USD")
+endif()
+if (WIN32)
+	find_package(pxr REQUIRED PATHS "C:\\Program Files\\USD")
+endif()
+
 find_package(Eigen3 REQUIRED NO_MODULE)
+find_package(OpenGL REQUIRED)
+find_package(glfw3 REQUIRED)
 
 get_property(importTargets DIRECTORY "${CMAKE_SOURCE_DIR}" PROPERTY IMPORTED_TARGETS)
 message("Imported targets: ${importTargets}")
 
-add_executable(ex1_triangle include/pxgen.h)
-
-target_sources(ex1_triangle
-	PRIVATE
-	ex1_triangle.cpp
-	)
-
-target_link_libraries(ex1_triangle
-	PRIVATE
-	usd
-	usdGeom
-	Eigen3::Eigen
-	)
-
-target_include_directories(ex1_triangle
-	PRIVATE
-	${PXR_INCLUDE_DIRS}
-	${CMAKE_CURRENT_SOURCE_DIR}/include
-	)
-
-target_precompile_headers(ex1_triangle
-	PUBLIC
-	include/pxr_common.h
-	)
+add_subdirectory(ex1_triangle)
+add_subdirectory(ex2_imaging_gl)

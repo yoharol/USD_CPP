@@ -21,7 +21,7 @@ endif()
 
 find_package(Eigen3 REQUIRED NO_MODULE)
 find_package(OpenGL REQUIRED)
-find_package(glfw3 REQUIRED)
+find_package(glfw3 REQUIRED PATHS "/opt/local")
 
 get_property(importTargets DIRECTORY "${CMAKE_SOURCE_DIR}" PROPERTY IMPORTED_TARGETS)
 message("Imported targets: ${importTargets}")

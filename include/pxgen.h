@@ -66,12 +66,11 @@ class CameraOrbit {
 	vert_axis << -direc(2), 0.0, direc(0);
 	vert_axis.normalize();
 
-	Eigen::Matrix3d rot = (Eigen::AngleAxis(hori * _velocity[0], Eigen::Vector3d::UnitY())
+	Eigen::Matrix3d rot = (Eigen::AngleAxis(-hori * _velocity[0], Eigen::Vector3d::UnitY())
 		* Eigen::AngleAxis(vert * _velocity[1], vert_axis)).toRotationMatrix();
 	length = length - forward * _velocity(2);
 	_pos = _target + length * rot * direc;
 	_t.SetLookAt(pxr::GfVec3d(_pos.data()), pxr::GfVec3d(_target.data()), pxr::GfVec3d::YAxis());
-	std::cout << _pos << std::endl;
   }
 
   pxr::GfMatrix4d get_transform() {
@@ -123,7 +122,6 @@ class UsdOrbitRenderer {
 
   void AddLight(Eigen::Vector3f pos, Eigen::Vector3f diffuse, Eigen::Vector3f specular) {
 	pxr::GlfSimpleLight light(pxr::GfVec4f(pos(0), pos(1), pos(2), 1.0f));
-	// light.SetAmbient(pxr::GfVec4f(1.0, 1.0, 1.0, 1.0));
 	light.SetDiffuse(pxr::GfVec4f(diffuse(0), diffuse(1), diffuse(2), 1.0f));
 	light.SetSpecular(pxr::GfVec4f(specular(0), specular(1), specular(2), 1.0f));
 	light.SetHasShadow(true);

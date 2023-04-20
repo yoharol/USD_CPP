@@ -9,7 +9,7 @@
 
 int main() {
   std::string output_path = OUTPUT_PATH;
-  auto stage = pxr::UsdStage::CreateNew(output_path + "/ex1_triangle.usda");
+  pxr::UsdStageRefPtr stage = pxr::UsdStage::CreateNew(output_path + "/ex1_triangle.usda");
   pxr::UsdGeomSetStageUpAxis(stage, pxr::TfToken("Y"));
   pxr::UsdGeomXform root = pxr::UsdGeomXform::Define(stage, pxr::SdfPath("/root"));
   pxr::UsdGeomMesh mesh =

@@ -27,4 +27,5 @@ get_property(importTargets DIRECTORY "${CMAKE_SOURCE_DIR}" PROPERTY IMPORTED_TAR
 message("Imported targets: ${importTargets}")
 
 add_subdirectory(ex1_triangle)
-add_subdirectory(ex2_imaging_gl)
+add_subdirectory(ex2_imaging_mini)
+add_subdirectory(ex3_imaging_gl)

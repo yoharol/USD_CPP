@@ -1,11 +1,11 @@
-add_executable(ex2_imaging_gl)
+add_executable(ex3_imaging_gl)
 
-target_sources(ex2_imaging_gl
+target_sources(ex3_imaging_gl
 	PRIVATE
-	ex2_imaging_gl.cpp
+	ex3_imaging_gl.cpp
 	)
 
-target_link_libraries(ex2_imaging_gl
+target_link_libraries(ex3_imaging_gl
 	PRIVATE
 	usd
 	usdGeom
@@ -16,7 +16,7 @@ target_link_libraries(ex2_imaging_gl
 	OpenGL::GL
 	)
 
-target_include_directories(ex2_imaging_gl
+target_include_directories(ex3_imaging_gl
 	PRIVATE
 	${PXR_INCLUDE_DIRS}
 	${CMAKE_SOURCE_DIR}/include

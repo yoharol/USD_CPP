@@ -1,4 +1,4 @@
-add_executable(ex1_triangle)
+add_executable(ex1_triangle ../ex2_imaging_mini/ex2_imaging_mini.cpp)
 
 target_sources(ex1_triangle
 	PRIVATE

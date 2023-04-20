@@ -3,33 +3,34 @@
 #include <pxr/usd/usd/stage.h>
 #include <pxr/usd/usd/stageCache.h>
 #include <pxr/usdImaging/usdImagingGL/engine.h>
-#include <pxr/usdImaging/usdImagingGL/renderParams.h>
 #include <pxr/base/gf/camera.h>
 #include <GLFW/glfw3.h>
 
 #include <iostream>
 #include <vector>
 
-int main(){
+int main() {
   if (!glfwInit()) {
-	std::cout << "Error: Call GLFW init first.\n";
-	exit(-1);
+    std::cout << "Error: Call GLFW init first.\n";
+    exit(-1);
   }
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+
   GLFWwindow *window =
-	  glfwCreateWindow(1024, 768, "Triangle", nullptr, nullptr);
+      glfwCreateWindow(1024, 768, "Triangle", nullptr, nullptr);
   if (!window) return -1;
   glfwMakeContextCurrent(window);
   glfwSwapInterval(1);
 
   std::string asset_path = ASSETS_PATH;
   std::string output_path = OUTPUT_PATH;
-  pxr::UsdStageRefPtr stage = pxr::UsdStage::Open(output_path +
-	  "/ex1_triangle.usda");
+  pxr::UsdStageRefPtr stage =
+      pxr::UsdStage::Open(output_path + "/ex1_triangle.usda");
   if (!stage) {
-	std::cout << "Error! Cannot find usd file\nMake sure you have ran ex1_triangle before this example.\n";
-	return -1;
+    std::cout << "Error! Cannot find usd file\nMake sure you have ran "
+                 "ex1_triangle before this example.\n";
+    return -1;
   }
 
   std::vector<pxr::GlfSimpleLight> light_vec;
@@ -56,32 +57,26 @@ int main(){
   trans.SetLookAt(pos, target, pxr::GfVec3d::YAxis());
 
   while (!glfwWindowShouldClose(window)) {
-	glfwPollEvents();
+    glfwPollEvents();
 
-	camera.SetTransform(trans.GetInverse());
-	engine.SetCameraState(camera.GetFrustum().ComputeViewMatrix(),
-						   camera.GetFrustum().ComputeProjectionMatrix());
+    camera.SetTransform(trans.GetInverse());
+    engine.SetCameraState(camera.GetFrustum().ComputeViewMatrix(),
+                          camera.GetFrustum().ComputeProjectionMatrix());
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0, 0.12, 0.04, 1.0);
-	int w, h;
-	glfwGetFramebufferSize(window, &w, &h);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(0.0, 0.12, 0.04, 1.0);
+    int w, h;
+    glfwGetFramebufferSize(window, &w, &h);
 
-	engine.SetRenderViewport(pxr::GfVec4d(0, 0, w, h));
-	engine.SetLightingState(light_vec, material, pxr::GfVec4f(1.0f, 1.0f, 1.0f, 1.0f));
-	engine.Render(stage->GetPseudoRoot(), params);
+    engine.SetRenderViewport(pxr::GfVec4d(0, 0, w, h));
+    engine.SetLightingState(light_vec, material,
+                            pxr::GfVec4f(1.0f, 1.0f, 1.0f, 1.0f));
+    engine.Render(stage->GetPseudoRoot(), params);
 
-	glfwSwapBuffers(window);
+    glfwSwapBuffers(window);
   }
 
   glfwDestroyWindow(window);
   glfwTerminate();
   return 0;
-
-
-
-
-
-
-
 }
